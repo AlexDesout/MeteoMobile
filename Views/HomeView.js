@@ -6,15 +6,16 @@ import BasicCard from '../components/Card';
 import Search from '../components/Search';
 import { useNavigation } from '@react-navigation/native';
 import { useState, useEffect } from 'react';
+import MeteoByCoord from '../Requests/MeteoByCoord';
 
 
 
 export default function HomeView() {
-    const [position, setPosition] = useState()
+    const [position, setPosition] = useState([])
 
     useEffect( ()=> {
         getLocation()
-    })
+    }, [])
 
     function getLocation() {
         if (navigator.geolocation) {
@@ -25,8 +26,9 @@ export default function HomeView() {
       }
 
       function showPosition(position) {
-        console.log("Latitude: " + position.coords.latitude)
-        console.log("Longitude: " + position.coords.longitude)
+        setPosition(position.coords)
+        console.log(position.coords)
+        
       }
 
 
@@ -36,16 +38,20 @@ export default function HomeView() {
         navigation.navigate('Search');
     }
 
-    return (
-        <View style={styles.container}>
-            <TouchableOpacity onPress={onPress}>
-                <Search></Search>
-                {/* <Text>DZ</Text> */}
-            </TouchableOpacity>
-            <BasicCard></BasicCard>
-            {/* <Text>Salut</Text> */}
-        </View>
-    )
+    if(position.length != 0) {
+        return (
+            <View style={styles.container}>
+                <TouchableOpacity onPress={onPress}>
+                    <Search></Search>
+                    {/* <Text>DZ</Text> */}
+                </TouchableOpacity>
+                {/* <BasicCard></BasicCard> */}
+                <MeteoByCoord coords = {position}></MeteoByCoord>
+                {/* <Text>Salut</Text> */}
+            </View>
+        )
+    }
+   
 }
 
 

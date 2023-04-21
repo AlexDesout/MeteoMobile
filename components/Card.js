@@ -5,36 +5,49 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import { View, ImageBackground, Text, StyleSheet } from 'react-native';
 
 
-export default function BasicCard() {
+export default function BasicCard(data) {
+  const image = { uri: `http://openweathermap.org/img/wn/${data.all.weather[0].icon}@2x.png` };
+  console.log(data.all)
+
+
   return (
-    <Card sx={{ minWidth: 275 }}>
-      <CardContent>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          Titre
-        </Typography>
-        {/* <Typography variant="h5" component="div">
+
+
+      <Card sx={{ minWidth: 275 }}>
+        <CardContent>
+          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+            {data.all.name}
+          </Typography>
+
+          <ImageBackground source={image} resizeMode="cover" style= {styles.img}>
+            <Text></Text>
+          </ImageBackground>
+
+          {/* <Typography variant="h5" component="div">
           be{bull}nev{bull}o{bull}lent
         </Typography> */}
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          Température
-        </Typography>
-        <Typography variant="body2">
-          Ciel
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <Button size="small">Learn More</Button>
-      </CardActions>
-    </Card>
+          <Typography sx={{ mb: 1.5 }} color="text.secondary">
+            {data.all.weather[0].description}
+          </Typography>
+          <Typography variant="body2">
+            {data.all.main.temp}°C
+          </Typography>
+        </CardContent>
+        <CardActions>
+          <Button size="small">Learn More</Button>
+        </CardActions>
+      </Card>
+
+
   );
 }
 
-// const styles = StyleSheet.create({
-//     container: {
-//         display: 'inline-block', 
-//         mx: '2px', 
-//         transform: 'scale(0.8)'
-//     },
-//   });
+const styles = StyleSheet.create({
+    img: {
+        width:'50%',
+        height:'5rem',
+    },
+  });

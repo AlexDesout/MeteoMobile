@@ -7,29 +7,35 @@ import Search from '../components/Search';
 import { useNavigation } from '@react-navigation/native';
 import { useState, useEffect } from 'react';
 import MeteoByCoord from '../Requests/MeteoByCoord';
+import * as Location from 'expo-location';
 
 
 
 export default function HomeView() {
-    const [position, setPosition] = useState([])
-
-    useEffect( ()=> {
-        getLocation()
-    }, [])
-
-    function getLocation() {
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(showPosition);
-        } else {
-          console.log( "Geolocation is not supported by this browser.");
-        }
-      }
-
-      function showPosition(position) {
-        setPosition(position.coords)
-        console.log(position.coords)
+    const [location, setLocation] = useState([]);
+    const [errorMsg, setErrorMsg] = useState(null);
+  
+    useEffect(() => {
+      (async () => {
         
-      }
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== 'granted') {
+          setErrorMsg('Permission to access location was denied');
+          return;
+        }
+  
+        let location = await Location.getCurrentPositionAsync({});
+        setLocation(location);
+      })();
+    }, []);
+  
+    let text = 'Waiting..';
+    if (errorMsg) {
+      text = errorMsg;
+    } else if (location) {
+      text = JSON.stringify(location);
+    //   console.log(location.coords)
+    }
 
 
     const navigation = useNavigation();
@@ -38,27 +44,25 @@ export default function HomeView() {
         navigation.navigate('Search');
     }
 
-    if(position.length != 0) {
+    if(location.length != 0 ){
         return (
             <View style={styles.container}>
                 <TouchableOpacity onPress={onPress}>
+                    {/* <Text>Salut</Text> */}
                     <Search></Search>
-                    {/* <Text>DZ</Text> */}
                 </TouchableOpacity>
-                {/* <BasicCard></BasicCard> */}
-                <MeteoByCoord coords = {position}></MeteoByCoord>
-                {/* <Text>Salut</Text> */}
+                <MeteoByCoord position = {location}></MeteoByCoord>
             </View>
         )
     }
    
 }
 
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: 'green',
         alignItems: 'center',
+        justifyContent: 'center'
     },
 });

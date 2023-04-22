@@ -11,23 +11,30 @@ export default function Search() {
 
   const searchFunction = () =>{
     // console.log(searchQuery)
-    navigation.navigate('City', {city: searchQuery});
+    if (searchQuery != ''){
+      navigation.navigate('City', {city: searchQuery});
+    }
   }
 
   return (
+    <View style={{marginTop:100}}>
     <Searchbar
-      placeholder="Search"
+      placeholder="Search post"
       onChangeText={onChangeSearch}
       value={searchQuery}
       onIconPress = {searchFunction}
       onSubmit = {()=> console.log(searchQuery)}
       style = {styles.nav}
+      mode = 'bar'
     />
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   nav: {
+    width:250,
+    backgroundColor:'red',
     shadowColor: "#000",
     shadowOffset: {
       width: 0,

@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
   card: {
     alignItems: 'center',
     width: 380,
-    height: 350,
+    height: 400,
     backgroundColor: '#FFFFFF',
     shadowColor: "#000",
     shadowOffset: {
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   temp: {
-    fontSize: 29,
+    fontSize: 15,
     fontWeight: 'bold',
     marginBottom: 20,
   },

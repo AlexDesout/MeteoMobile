@@ -3,11 +3,11 @@ import BasicCard from '../components/Card';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 
 
-export default function MeteoByCoord(data) {
+export default function MeteoByCity(data) {
     // console.log(data.position.coords.latitude)
     const [weather, setWeather] = useState([])
     let url =
-        `https://api.openweathermap.org/data/2.5/weather?lat=${data.position.coords.latitude}&lon=${data.position.coords.longitude}&France&units=metric&lang=fr&appid=1c759b526e6d29cb90e1258a8add75c2`; 
+        `https://api.openweathermap.org/data/2.5/weather?q=${data.city},France&units=metric&lang=fr&appid=1c759b526e6d29cb90e1258a8add75c2`; 
 
 
     function getMeteo() {

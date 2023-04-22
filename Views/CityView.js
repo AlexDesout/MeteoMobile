@@ -8,35 +8,14 @@ import { useNavigation } from '@react-navigation/native';
 import { useState, useEffect } from 'react';
 import MeteoByCoord from '../Requests/MeteoByCoord';
 import * as Location from 'expo-location';
+import { useRoute } from '@react-navigation/native';
+import MeteoByCity from '../Requests/MeteoByCity';
 
 
 
-export default function HomeView() {
-    const [location, setLocation] = useState([]);
-    const [errorMsg, setErrorMsg] = useState(null);
-
-    useEffect(() => {
-        (async () => {
-
-            let { status } = await Location.requestForegroundPermissionsAsync();
-            if (status !== 'granted') {
-                setErrorMsg('Permission to access location was denied');
-                return;
-            }
-
-            let location = await Location.getCurrentPositionAsync({});
-            setLocation(location);
-        })();
-    }, []);
-
-    let text = 'Waiting..';
-    if (errorMsg) {
-        text = errorMsg;
-    } else if (location) {
-        text = JSON.stringify(location);
-        //   console.log(location.coords)
-    }
-
+export default function CityView() {
+    const route = useRoute()
+    // console.log(route.params.city)
 
     const navigation = useNavigation();
 
@@ -44,18 +23,19 @@ export default function HomeView() {
         navigation.navigate('Search');
     }
 
-    if (location.length != 0) {
+    
         return (
             <View style={styles.container}>
                 <TouchableOpacity style={styles.navbar} onPress={onPress}>
                     <Search></Search>
                 </TouchableOpacity>
                 <View style={styles.meteo}>
-                    <MeteoByCoord position={location}></MeteoByCoord>
+                    <MeteoByCity city = {route.params.city}></MeteoByCity>
                 </View>
             </View>
         )
-    }
+    
+    
 
 }
 

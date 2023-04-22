@@ -4,6 +4,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import HomeView from './Views/HomeView';
 import SearchView from './Views/SearchView';
+import CityView from './Views/CityView';
 
 import React, { useState, useEffect } from 'react';
 
@@ -25,6 +26,10 @@ export default function App() {
         <Stack.Screen name="Search" 
         component={SearchView} 
         options={{title: 'Search', headerShown: false}}
+        />
+        <Stack.Screen name="City" 
+        component={CityView} 
+        options={{title: 'City', headerShown: false}}
         />
       </Stack.Navigator>
     </NavigationContainer>
